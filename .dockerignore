@@ -1,0 +1,28 @@
+# Docker 构建上下文排除（镜像瘦身）
+# 注意：hashes.json 保留（升级比对用）；public/、vendor/、storage 骨架保留
+# 注意：storage/app 骨架必须保留（entrypoint chmod/数据卷映射依赖）
+.git
+.gitignore
+.github
+tests
+web/node_modules
+web/src
+web/public
+web/vite.config.ts
+web/package.json
+web/yarn.lock
+web/tsconfig.json
+web/tsconfig.node.json
+web/index.html
+web/.env
+web/.env.*
+_ide_helper.php
+.phpstorm.meta.php
+phpunit.xml
+install.sh
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+# storage/app 保留（uploads/public/private/cache 均为运行时数据目录）
+docker/README.md

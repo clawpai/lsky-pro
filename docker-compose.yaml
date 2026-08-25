@@ -1,0 +1,58 @@
+# Lsky Pro 2.2.3 一键部署（兼容 halcyonazure/lsky-pro-docker 挂载标准）
+# 用法：docker compose up -d
+# 访问 http://<服务器IP>:9080
+
+services:
+  lsky-pro:
+    # 构建后推 GHCR，替换为你的镜像地址
+    image: ghcr.io/clawpai/lsky-pro:latest
+    container_name: lsky-pro
+    restart: unless-stopped
+    hostname: lsky-pro
+    environment:
+      # 站点地址（必填，替换成你的域名或IP）
+      - APP_URL=http://localhost:9080
+      # 站点名称
+      - APP_NAME=兰空图床
+      # 管理员（仅首次安装用）
+      - ADMIN_USERNAME=admin
+      - ADMIN_EMAIL=admin@example.com
+      # 强烈建议首次部署设置强密码（默认 admin123）
+      # - ADMIN_PASSWORD=your-strong-password
+      # 数据库（默认 sqlite；用 MySQL 取消注释下面4行）
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql-lsky
+      - DB_PORT=3306
+      - DB_DATABASE=lsky-data
+      - DB_USERNAME=lsky
+      - DB_PASSWORD=change-me-strong-password
+    volumes:
+      # 与 halcyonazure 挂载标准一致：整个程序+数据目录
+      - ./web:/var/www/html
+    ports:
+      - "9080:80"
+    depends_on:
+      - mysql-lsky
+    networks:
+      - lsky-net
+
+  mysql-lsky:
+    image: mysql:8.0
+    container_name: mysql-lsky
+    restart: unless-stopped
+    hostname: mysql-lsky
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/log:/var/log/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: change-me-root-password
+      MYSQL_DATABASE: lsky-data
+      MYSQL_USER: lsky
+      MYSQL_PASSWORD: change-me-strong-password
+    networks:
+      - lsky-net
+
+networks:
+  lsky-net:
+    driver: bridge

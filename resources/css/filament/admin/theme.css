@@ -1,0 +1,17 @@
+@import '/vendor/filament/filament/resources/css/theme.css';
+@import '/vendor/awcodes/filament-tiptap-editor/resources/css/plugin.css';
+
+@config 'tailwind.config.js';
+
+/** markdown */
+.markdown-body ul, .markdown-body ol {
+    @apply list-disc;
+}
+
+.fi-tabs-item {
+    @apply whitespace-nowrap;
+}
+
+.fi-fo-builder>ul h4 {
+    @apply max-w-24 sm:max-w-80 md:max-w-full;
+}

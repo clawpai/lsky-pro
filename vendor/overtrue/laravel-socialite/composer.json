@@ -1,0 +1,65 @@
+{
+  "name": "overtrue/laravel-socialite",
+  "description": "Social OAuth authentication for Laravel 5.",
+  "require": {
+    "overtrue/socialite": "^4.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.0|^11.0",
+    "mockery/mockery": "^1.4",
+    "friendsofphp/php-cs-fixer": "^3.3",
+    "laravel/pint": "*",
+    "brainmaestro/composer-git-hooks": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "Overtrue\\LaravelSocialite\\": "src/"
+    }
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "overtrue",
+      "email": "anzhengchao@gmail.com"
+    }
+  ],
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Overtrue\\LaravelSocialite\\ServiceProvider"
+      ],
+      "aliases": {
+        "Socialite": "Overtrue\\LaravelSocialite\\Socialite"
+      }
+    },
+    "hooks": {
+      "pre-commit": [
+        "composer test",
+        "composer check-style"
+      ],
+      "pre-push": [
+        "composer test",
+        "composer check-style"
+      ]
+    }
+  },
+  "scripts": {
+    "post-update-cmd": [
+      "cghooks update"
+    ],
+    "post-merge": "composer install",
+    "post-install-cmd": [
+      "cghooks add --ignore-lock",
+      "cghooks update"
+    ],
+    "cghooks": "vendor/bin/cghooks",
+    "check-style": "vendor/bin/pint --test",
+    "fix-style": "vendor/bin/pint",
+    "test": "vendor/bin/phpunit --colors=always"
+  },
+  "scripts-descriptions": {
+    "test": "Run all tests.",
+    "check-style": "Run style checks (only dry run - no fixing!).",
+    "fix-style": "Run style checks and fix violations."
+  }
+}
