@@ -58,6 +58,7 @@ class SocialiteDriverResource extends Resource
                 self::getIntroFormComponent(),
                 ...self::getGithubOptionFormComponents(),
                 ...self::getQQOptionFormComponents(),
+                ...self::getCCLoginOptionFormComponents(),
                 self::getOptionRedirectFormComponent(),
             ]),
         ]);
@@ -160,6 +161,40 @@ class SocialiteDriverResource extends Resource
                 self::getOptionClientIdFormComponent(),
                 self::getOptionClientSecretFormComponent(),
             ])->visible(fn(Get $get): bool => $get('options.provider') === SocialiteProvider::QQ->value)
+        ];
+    }
+
+    /**
+     * 聚合 CC 登录配置表单
+     * @return array
+     */
+    protected static function getCCLoginOptionFormComponents(): array
+    {
+        return [
+            Grid::make()->schema([
+                TextInput::make('options.appid')
+                    ->label(__('admin/socialite_driver.form_fields.options.appid.label'))
+                    ->placeholder(__('admin/socialite_driver.form_fields.options.appid.placeholder'))
+                    ->required(),
+                TextInput::make('options.appkey')
+                    ->label(__('admin/socialite_driver.form_fields.options.appkey.label'))
+                    ->placeholder(__('admin/socialite_driver.form_fields.options.appkey.placeholder'))
+                    ->password()
+                    ->revealable()
+                    ->required(),
+            ])->visible(fn(Get $get): bool => $get('options.provider') === SocialiteProvider::CCLogin->value),
+            Grid::make()->schema([
+                TextInput::make('options.type')
+                    ->label(__('admin/socialite_driver.form_fields.options.type.label'))
+                    ->placeholder(__('admin/socialite_driver.form_fields.options.type.placeholder'))
+                    ->helperText(__('admin/socialite_driver.form_fields.options.type.helper_text'))
+                    ->default('qq'),
+                TextInput::make('options.endpoint')
+                    ->label(__('admin/socialite_driver.form_fields.options.endpoint.label'))
+                    ->placeholder(__('admin/socialite_driver.form_fields.options.endpoint.placeholder'))
+                    ->helperText(__('admin/socialite_driver.form_fields.options.endpoint.helper_text'))
+                    ->url(),
+            ])->visible(fn(Get $get): bool => $get('options.provider') === SocialiteProvider::CCLogin->value),
         ];
     }
 

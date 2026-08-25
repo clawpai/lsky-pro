@@ -1,6 +1,6 @@
 # License / Disclaimer
 
-欢迎使用兰空图床(Lsky Pro+ - 2x.nz特供离线版)（以下简称“本软件”）。在使用本软件之前，请仔细阅读并理解本许可证和免责声明。通过下载、安装或使用本软件，即表示您已阅读、理解并同意遵守本许可证和免责声明中所载的所有条款和条件。如果您不同意本许可证和免责声明中的任何条款，请勿使用本软件。
+欢迎使用兰空图床(lskyPai-PRO)（以下简称“本软件”）。在使用本软件之前，请仔细阅读并理解本许可证和免责声明。通过下载、安装或使用本软件，即表示您已阅读、理解并同意遵守本许可证和免责声明中所载的所有条款和条件。如果您不同意本许可证和免责声明中的任何条款，请勿使用本软件。
 
 ## 许可证
 
@@ -58,7 +58,7 @@
 
 # License / Disclaimer (English Version)
 
-Welcome to use Lsky Pro+ - 2x.nz特供离线版 (兰空图床) (hereinafter referred to as "the Software"). Before using the Software, please read and understand this license and disclaimer carefully. By downloading, installing, or using the Software, you indicate that you have read, understood, and agreed to comply with all the terms and conditions stated in this license and disclaimer. If you do not agree with any of the terms in this license and disclaimer, please refrain from using the Software.
+Welcome to use lskyPai-PRO (兰空图床) (hereinafter referred to as "the Software"). Before using the Software, please read and understand this license and disclaimer carefully. By downloading, installing, or using the Software, you indicate that you have read, understood, and agreed to comply with all the terms and conditions stated in this license and disclaimer. If you do not agree with any of the terms in this license and disclaimer, please refrain from using the Software.
 
 ## License
 

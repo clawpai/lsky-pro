@@ -134,8 +134,9 @@ return [
         'unified' => 'Unified payment',
     ],
     'socialite_providers' => [
-        'github' => 'GitHub',
+        'github' => 'Github',
         'qq' => 'QQ',
+        'cc' => 'Aggregate CC Login',
     ],
     'storage_naming_rules' => [
         'Y' => [

@@ -86,7 +86,7 @@ class ImportCommand extends Command
         pause('确认无误后，请按回车键继续。');
 
         if (! AppService::isInstalled()) {
-            error('请先安装 Lsky Pro+ - 2x.nz特供离线版 v2.x 版本');
+            error('请先安装 lskyPai-PRO v2.x 版本');
             return CommandAlias::FAILURE;
         }
 

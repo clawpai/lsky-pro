@@ -179,7 +179,7 @@ return [
     /**
      * app 版本
      */
-    'version' => env('APP_VERSION', '2.2.3'),
+    'version' => env('APP_VERSION', '2.3'),
 
     /**
      * 服务接口地址

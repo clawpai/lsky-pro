@@ -25,6 +25,7 @@
     "copy-image-clipboard": "^2.1.2",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.13",
+    "mitt": "^3.0.1",
     "photoswipe": "^5.4.4",
     "pinia": "^2.1.7",
     "uuid": "^11.1.0",

@@ -1,4 +1,4 @@
-# Lsky Pro+ - 2x.nz特供离线版 前端工程
+# lskyPai-PRO 前端工程
 
 使用 Vue3 + TypeScript + Pinia + Tailwindcss + Naiveui，基于 Vite 构建。
 

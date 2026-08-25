@@ -5,7 +5,7 @@
     <link rel="icon" href="/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ app(\App\Settings\SiteSettings::class)->title }} - {{ app(\App\Settings\SiteSettings::class)->subtitle }}</title>
-    <script type="module" crossorigin src="/themes/default/js/index-DZdj2b_n.js"></script>
+    <script type="module" crossorigin src="/themes/default/js/index-DdgGDLKf.js"></script>
     <link rel="modulepreload" crossorigin href="/themes/default/js/vue-vendors-B4XdlKKZ.js">
     <link rel="modulepreload" crossorigin href="/themes/default/js/utils-DGAJShNI.js">
     <link rel="modulepreload" crossorigin href="/themes/default/js/naive-ui-DFBPfLe9.js">

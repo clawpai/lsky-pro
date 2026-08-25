@@ -16,6 +16,7 @@ use App\Models\Driver;
 use App\Models\Group;
 use App\Models\Photo;
 use App\PaymentProvider;
+use App\SocialiteProvider;
 use App\Settings\AppSettings;
 use App\Settings\SiteSettings;
 use Illuminate\Support\Arr;
@@ -81,12 +82,34 @@ class HomeService
             'app.photo_count' => Photo::count(),                                    // 系统图片数量
             'app.photo_size' => (float)(Photo::sum('size')),                        // 图片占用字节(kb)
             'app.countries' => AppService::getAllCountries(),                       // 支持的国家代码
-            'app.socialites' => $socialites->map(function (Driver $socialite) {     // 社会化登录驱动
-                $socialite->provider = $socialite->options['provider'];
-                return $socialite->only([
-                    'id', 'name', 'intro', 'provider',
-                ]);
-            }),
+            'app.socialites' => $socialites->flatMap(function (Driver $socialite) {     // 社会化登录驱动
+                $provider = $socialite->options['provider'] ?? null;
+                $types = $socialite->options['type'] ?? null;
+
+                // 聚合 CC 登录：type 支持 qq / qq,wx / qq/wx/baidu 等多方式，拆分为多个登录项
+                if ($provider === SocialiteProvider::CCLogin->value && ! empty($types)) {
+                    $typeList = preg_split('/[,，\/\s]+/', (string)$types);
+
+                    return collect($typeList)->filter()->map(fn(string $type) => [
+                        'id' => $socialite->id,
+                        'name' => $socialite->name,
+                        'intro' => $socialite->intro,
+                        'provider' => $provider,
+                        'type' => $type,
+                    ]);
+                }
+
+                // 其他驱动：单一登录项
+                return [
+                    [
+                        'id' => $socialite->id,
+                        'name' => $socialite->name,
+                        'intro' => $socialite->intro,
+                        'provider' => $provider,
+                        'type' => $socialite->options['type'] ?? null,
+                    ],
+                ];
+            })->values(),
         ]);
 
         return Arr::undot($configs);

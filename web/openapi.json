@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Lsky Pro+ - 2x.nz特供离线版",
+    "title": "lskyPai-PRO",
     "description": "您的云上相册系统。",
     "version": "1.0.0"
   },
@@ -16707,7 +16707,7 @@
                     "data": [
                       {
                         "id": 1,
-                        "title": "Lsky Pro+ - 2x.nz特供离线版 2.0 发布",
+                        "title": "lskyPai-PRO 2.0 发布",
                         "content": "1231231231231231",
                         "created_at": "2024-07-05T03:33:38.000000Z"
                       }
@@ -17178,7 +17178,7 @@
                 ]
               },
               "example": {
-                "app_name": "Lsky Pro+ - 2x.nz特供离线版",
+                "app_name": "lskyPai-PRO",
                 "app_url": "http://127.0.0.1",
                 "app_serial_no": "test",
                 "app_secret": "test",
@@ -17232,7 +17232,7 @@
                     "time"
                   ]
                 },
-                "example": "{\n    \"status\": \"success\",\n    \"message\": \"successful\",\n    \"data\": {\n        \"content\":\"\\n ┌────────────────────┬──────────────────────────┬──────────┐\\n │\u001b[2m 名称               \u001b[22m│\u001b[2m 说明                     \u001b[22m│\u001b[2m 检测状态 \u001b[22m│\\n ├────────────────────┼──────────────────────────┼──────────┤\\n │ PHP >= 8.2         │ PHP 版本必须大于等于 8.2 │ √        │\\n │ Ctype PHP 扩展     │ 用于字符类型检测         │ √        │\\n │ cURL PHP 扩展      │ 用于发送 HTTP 请求       │ √        │\\n │ DOM PHP 扩展       │ 用于操作 XML 文档        │ √        │\\n │ Fileinfo PHP 扩展  │ 用于检测文件的 MIME 类型 │ √        │\\n │ Filter PHP 扩展    │ 用于数据过滤             │ √        │\\n │ Hash PHP 扩展      │ 用于数据散列             │ √        │\\n │ Mbstring PHP 扩展  │ 用于多字节字符串处理     │ √        │\\n │ OpenSSL PHP 扩展   │ 用于数据加密             │ √        │\\n │ PCRE PHP 扩展      │ 用于正则表达式处理       │ √        │\\n │ PDO PHP 扩展       │ 用于数据库访问           │ √        │\\n │ Session PHP 扩展   │ 用于会话管理             │ √        │\\n │ Tokenizer PHP 扩展 │ 用于 PHP 代码的标记化    │ √        │\\n │ XML PHP 扩展       │ 用于解析 XML             │ √        │\\n │ PCNTL PHP 拓展     │ 用于处理信号和异步任务   │ √        │\\n │ Posix PHP 拓展     │ 用于处理进程             │ √        │\\n └────────────────────┴──────────────────────────┴──────────┘\\n\\n\\n   INFO  Preparing database.  \\n\\n  Creating migration table ....................................... 1.26ms DONE\\n\\n   INFO  Running migrations.  \\n\\n  0001_01_01_000000_create_users_table ........................... 5.32ms DONE\\n  0001_01_01_000001_create_cache_table ........................... 1.26ms DONE\\n  0001_01_01_000002_create_jobs_table ............................ 2.62ms DONE\\n  0001_01_01_000003_create_personal_access_tokens_table .......... 1.79ms DONE\\n  2024_04_24_151850_create_configs_table ......................... 1.58ms DONE\\n  2024_04_24_161046_create_groups_table .......................... 0.75ms DONE\\n  2024_04_24_170718_create_drivers_table ......................... 0.62ms DONE\\n  2024_04_24_172050_create_group_driver_table .................... 0.73ms DONE\\n  2024_04_24_172200_create_albums_table .......................... 0.64ms DONE\\n  2024_04_24_172219_create_photos_table .......................... 1.98ms DONE\\n  2024_04_24_172220_create_album_photo_table ..................... 0.73ms DONE\\n  2024_04_24_172221_create_tags_table ............................ 0.61ms DONE\\n  2024_04_24_172222_create_taggables_table ....................... 1.15ms DONE\\n  2024_04_24_172223_create_shares_table .......................... 1.02ms DONE\\n  2024_04_24_172230_create_shareables_table ...................... 1.07ms DONE\\n  2024_04_24_172337_create_violations_table ...................... 0.76ms DONE\\n  2024_04_24_172555_create_notices_table ......................... 0.54ms DONE\\n  2024_04_24_172714_create_pages_table ........................... 0.59ms DONE\\n  2024_04_24_172745_create_feedbacks_table ....................... 0.51ms DONE\\n  2024_04_24_172823_create_tickets_table ......................... 1.04ms DONE\\n  2024_04_24_172919_create_ticket_replies_table .................. 0.67ms DONE\\n  2024_04_24_173007_create_reports_table ......................... 0.82ms DONE\\n  2024_04_24_205207_create_likes_table ........................... 0.72ms DONE\\n  2024_04_24_222637_create_orders_table .......................... 1.32ms DONE\\n  2024_04_24_222829_create_user_groups_table ..................... 0.62ms DONE\\n  2024_04_24_223536_create_user_capacities_table ................. 0.68ms DONE\\n  2024_04_24_225049_create_plans_table ........................... 0.61ms DONE\\n  2024_04_24_225050_create_plan_prices_table ..................... 0.57ms DONE\\n  2024_04_24_225060_create_plan_groups_table ..................... 0.51ms DONE\\n  2024_04_24_225300_create_plan_capacities_table ................. 0.51ms DONE\\n  2024_04_24_225418_create_coupons_table ......................... 1.29ms DONE\\n\\n\\n   INFO  Application key set successfully.  \\n\\n\u001b[32m        __         __           ___               __ \u001b[39m\\n\u001b[32m       / /   ___  / /__ __ __  / _ \\\\ ____ ___  __/ /_\u001b[39m\\n\u001b[32m      / /__ (_-< /  '_// // / / ___// __// _ \\\\/_  __/\u001b[39m\\n\u001b[32m     /____//___//_/\\\\_\\\\ \\\\_, / /_/   /_/   \\\\___/ /_/   \u001b[39m\\n\u001b[32m                      /___/                          \u001b[39m\\n\\n     欢迎使用 Lsky Pro+ - 2x.nz特供离线版 2.0.0，程序已安装成功，如果需要重新安装请删除程序根目录 installed.lock 文件。\\n     使用过程中遇到问题请访问 https://docs.lsky.pro 获取帮助。\\n\\n\"\n    },\n    \"time\": 1721804693\n}"
+                "example": "{\n    \"status\": \"success\",\n    \"message\": \"successful\",\n    \"data\": {\n        \"content\":\"\\n ┌────────────────────┬──────────────────────────┬──────────┐\\n │\u001b[2m 名称               \u001b[22m│\u001b[2m 说明                     \u001b[22m│\u001b[2m 检测状态 \u001b[22m│\\n ├────────────────────┼──────────────────────────┼──────────┤\\n │ PHP >= 8.2         │ PHP 版本必须大于等于 8.2 │ √        │\\n │ Ctype PHP 扩展     │ 用于字符类型检测         │ √        │\\n │ cURL PHP 扩展      │ 用于发送 HTTP 请求       │ √        │\\n │ DOM PHP 扩展       │ 用于操作 XML 文档        │ √        │\\n │ Fileinfo PHP 扩展  │ 用于检测文件的 MIME 类型 │ √        │\\n │ Filter PHP 扩展    │ 用于数据过滤             │ √        │\\n │ Hash PHP 扩展      │ 用于数据散列             │ √        │\\n │ Mbstring PHP 扩展  │ 用于多字节字符串处理     │ √        │\\n │ OpenSSL PHP 扩展   │ 用于数据加密             │ √        │\\n │ PCRE PHP 扩展      │ 用于正则表达式处理       │ √        │\\n │ PDO PHP 扩展       │ 用于数据库访问           │ √        │\\n │ Session PHP 扩展   │ 用于会话管理             │ √        │\\n │ Tokenizer PHP 扩展 │ 用于 PHP 代码的标记化    │ √        │\\n │ XML PHP 扩展       │ 用于解析 XML             │ √        │\\n │ PCNTL PHP 拓展     │ 用于处理信号和异步任务   │ √        │\\n │ Posix PHP 拓展     │ 用于处理进程             │ √        │\\n └────────────────────┴──────────────────────────┴──────────┘\\n\\n\\n   INFO  Preparing database.  \\n\\n  Creating migration table ....................................... 1.26ms DONE\\n\\n   INFO  Running migrations.  \\n\\n  0001_01_01_000000_create_users_table ........................... 5.32ms DONE\\n  0001_01_01_000001_create_cache_table ........................... 1.26ms DONE\\n  0001_01_01_000002_create_jobs_table ............................ 2.62ms DONE\\n  0001_01_01_000003_create_personal_access_tokens_table .......... 1.79ms DONE\\n  2024_04_24_151850_create_configs_table ......................... 1.58ms DONE\\n  2024_04_24_161046_create_groups_table .......................... 0.75ms DONE\\n  2024_04_24_170718_create_drivers_table ......................... 0.62ms DONE\\n  2024_04_24_172050_create_group_driver_table .................... 0.73ms DONE\\n  2024_04_24_172200_create_albums_table .......................... 0.64ms DONE\\n  2024_04_24_172219_create_photos_table .......................... 1.98ms DONE\\n  2024_04_24_172220_create_album_photo_table ..................... 0.73ms DONE\\n  2024_04_24_172221_create_tags_table ............................ 0.61ms DONE\\n  2024_04_24_172222_create_taggables_table ....................... 1.15ms DONE\\n  2024_04_24_172223_create_shares_table .......................... 1.02ms DONE\\n  2024_04_24_172230_create_shareables_table ...................... 1.07ms DONE\\n  2024_04_24_172337_create_violations_table ...................... 0.76ms DONE\\n  2024_04_24_172555_create_notices_table ......................... 0.54ms DONE\\n  2024_04_24_172714_create_pages_table ........................... 0.59ms DONE\\n  2024_04_24_172745_create_feedbacks_table ....................... 0.51ms DONE\\n  2024_04_24_172823_create_tickets_table ......................... 1.04ms DONE\\n  2024_04_24_172919_create_ticket_replies_table .................. 0.67ms DONE\\n  2024_04_24_173007_create_reports_table ......................... 0.82ms DONE\\n  2024_04_24_205207_create_likes_table ........................... 0.72ms DONE\\n  2024_04_24_222637_create_orders_table .......................... 1.32ms DONE\\n  2024_04_24_222829_create_user_groups_table ..................... 0.62ms DONE\\n  2024_04_24_223536_create_user_capacities_table ................. 0.68ms DONE\\n  2024_04_24_225049_create_plans_table ........................... 0.61ms DONE\\n  2024_04_24_225050_create_plan_prices_table ..................... 0.57ms DONE\\n  2024_04_24_225060_create_plan_groups_table ..................... 0.51ms DONE\\n  2024_04_24_225300_create_plan_capacities_table ................. 0.51ms DONE\\n  2024_04_24_225418_create_coupons_table ......................... 1.29ms DONE\\n\\n\\n   INFO  Application key set successfully.  \\n\\n\u001b[32m        __         __           ___               __ \u001b[39m\\n\u001b[32m       / /   ___  / /__ __ __  / _ \\\\ ____ ___  __/ /_\u001b[39m\\n\u001b[32m      / /__ (_-< /  '_// // / / ___// __// _ \\\\/_  __/\u001b[39m\\n\u001b[32m     /____//___//_/\\\\_\\\\ \\\\_, / /_/   /_/   \\\\___/ /_/   \u001b[39m\\n\u001b[32m                      /___/                          \u001b[39m\\n\\n     欢迎使用 lskyPai-PRO 2.0.0，程序已安装成功，如果需要重新安装请删除程序根目录 installed.lock 文件。\\n     使用过程中遇到问题请访问 https://docs.lsky.pro 获取帮助。\\n\\n\"\n    },\n    \"time\": 1721804693\n}"
               }
             },
             "headers": {}
@@ -17487,7 +17487,7 @@
                   "message": "successful",
                   "data": {
                     "app": {
-                      "name": "Lsky Pro+ - 2x.nz特供离线版",
+                      "name": "lskyPai-PRO",
                       "url": "http://127.0.0.1:8000",
                       "currency": "CNY",
                       "icp_no": "",
@@ -18743,9 +18743,9 @@
                       ]
                     },
                     "site": {
-                      "title": "Lsky Pro+ - 2x.nz特供离线版",
+                      "title": "lskyPai-PRO",
                       "subtitle": "123",
-                      "homepage_title": "Lsky Pro+ - 2x.nz特供离线版",
+                      "homepage_title": "lskyPai-PRO",
                       "homepage_description": "Your photo album on the cloud.",
                       "notice": null,
                       "homepage_background_image_url": "",

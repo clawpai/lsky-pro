@@ -494,15 +494,19 @@ export type GetOauthByIdRedirectData = {
     };
     path: {
         /**
-         * 三方授权驱动ID
+         * 三方登录驱动ID
          */
         id: string;
     };
     query?: {
         /**
-         * 授权成功回调地址
+         * 跳转回调地址
          */
         redirect_url?: string;
+        /**
+         * 登录方式（聚合驱动为 qq/wx/baidu 等）
+         */
+        type?: string;
     };
     url: '/oauth/{id}/redirect';
 };
@@ -529,6 +533,10 @@ export type PostOauthByIdLoginData = {
          * 三方授权code
          */
         code: string;
+        /**
+         * 登录方式（聚合驱动为 qq/wx/baidu 等）
+         */
+        type?: string;
     };
     headers?: {
         Accept?: string;
@@ -580,6 +588,10 @@ export type PostOauthByIdBindData = {
          * 三方授权code
          */
         code: string;
+        /**
+         * 登录方式（聚合驱动为 qq/wx/baidu 等）
+         */
+        type?: string;
     };
     headers?: {
         Accept?: string;
@@ -616,7 +628,12 @@ export type DeleteOauthByIdUnbindData = {
          */
         id: string;
     };
-    query?: never;
+    query?: {
+        /**
+         * 登录方式（聚合驱动多方式绑定解绑需指定，防止误删其他方式）
+         */
+        type?: string;
+    };
     url: '/oauth/{id}/unbind';
 };
 
@@ -702,6 +719,10 @@ export type GetOauthBindsResponses = {
                      * 驱动提供者
                      */
                     provider: string;
+                    /**
+                     * 登录方式（聚合驱动为 qq/wx/baidu 等）
+                     */
+                    type?: string | null;
                 };
             }>;
             first_page_url: string;
@@ -5602,6 +5623,7 @@ export type GetConfigsResponses = {
                     name: string;
                     intro: string;
                     provider: string;
+                    type?: string | null;
                 }>;
             };
             site: {

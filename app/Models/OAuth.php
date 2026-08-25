@@ -50,6 +50,7 @@ class OAuth extends Model
         'driver_id',
         'user_id',
         'openid',
+        'type',
         'avatar',
         'email',
         'name',

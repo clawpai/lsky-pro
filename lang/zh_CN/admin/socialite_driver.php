@@ -34,6 +34,24 @@ return [
                 'label' => 'Client Secret',
                 'placeholder' => '请输入 Client Secret',
             ],
+            'appid' => [
+                'label' => '应用ID',
+                'placeholder' => '请输入聚合登录应用ID',
+            ],
+            'appkey' => [
+                'label' => '应用密钥',
+                'placeholder' => '请输入聚合登录应用密钥',
+            ],
+            'type' => [
+                'label' => '登录方式',
+                'placeholder' => '默认 qq',
+                'helper_text' => '聚合 CC 登录方式标识，如 qq / wx / sina / baidu 等',
+            ],
+            'endpoint' => [
+                'label' => '网关地址',
+                'placeholder' => '例如 https://example.com/connect.php',
+                'helper_text' => '聚合登录接口地址；请填写你自己的网关地址',
+            ],
             'redirect' => [
                 'label' => '回调地址',
             ]

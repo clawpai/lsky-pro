@@ -65,12 +65,15 @@ const onSubmit = async () => {
 
 const tab = ref('email')
 const openSocialiteUrl = async (socialite: GetConfigsResponse['data']['app']['socialites'][number]) => {
+  // 聚合多方式驱动：跳转地址携带 type，回调时用于区分登录方式
+  const typeQuery = socialite.type ? `&type=${encodeURIComponent(socialite.type)}` : ''
   const result = await getOauthByIdRedirect({
     path: {
       id: socialite.id.toString(),
     },
     query: {
-      redirect_url: `${app.getWithoutQueryUrl()}?driver_id=${socialite.id}`,
+      redirect_url: `${app.getWithoutQueryUrl()}?driver_id=${socialite.id}${typeQuery}`,
+      type: socialite.type ?? undefined,
     }
   })
   if (result.data?.status === 'error') {
@@ -101,6 +104,7 @@ onMounted(() => {
       },
       body: {
         code: route.query.code.toString(),
+        type: route.query.type?.toString(),
       }
     }).then(result => {
       const token = result.data?.data.token.toString() || ''
@@ -251,9 +255,11 @@ onMounted(() => {
               @click="openSocialiteUrl(socialite)"
             >
               <template #icon>
-                <NIcon :component="app.getSocialiteIcon(socialite.provider)" />
+                <NIcon :component="app.getSocialiteIcon(socialite.provider, socialite.type)" />
               </template>
-              {{ socialite.name }}
+              <span v-if="(configStore.configs?.app.socialites || []).length <= 2">
+                {{ app.getSocialiteDisplayName(socialite) }}
+              </span>
             </NButton>
           </div>
         </div>

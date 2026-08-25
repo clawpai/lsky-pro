@@ -58,7 +58,7 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Install Lsky Pro+ - 2x.nz特供离线版';
+    protected $description = 'Install lskyPai-PRO';
 
     /**
      * Execute the console command.
@@ -67,7 +67,7 @@ class InstallCommand extends Command
     {
         try {
             if (AppService::isInstalled() && !$this->option('force')) {
-                error('Lsky Pro+ - 2x.nz特供离线版 已经安装过了，如需重新安装请删除程序根目录 installed.lock 和 .env 文件');
+                error('lskyPai-PRO 已经安装过了，如需重新安装请删除程序根目录 installed.lock 和 .env 文件');
                 return CommandAlias::FAILURE;
             }
 
@@ -219,7 +219,7 @@ class InstallCommand extends Command
         return text(
             label: '应用名称',
             placeholder: '请输入应用名称',
-            default: 'Lsky Pro+ - 2x.nz特供离线版',
+            default: 'lskyPai-PRO',
             required: true,
         );
     }
@@ -374,7 +374,7 @@ class InstallCommand extends Command
         );
 
         note(<<<EOF
-            欢迎使用 Lsky Pro+ - 2x.nz特供离线版 {$version}，程序已安装成功，后台地址：{$url}
+            欢迎使用 lskyPai-PRO {$version}，程序已安装成功，后台地址：{$url}
             注意，若要正常使用，还需要根据文档 https://docs.lsky.pro/guide/install 配置消息队列，否则会导致图片无法正常删除、无法发送邮件、无法生成缩略图等异常。
             如果需要重新安装请删除程序根目录 installed.lock 和 .env 文件，使用过程中遇到问题请访问 https://docs.lsky.pro 获取帮助。
         EOF

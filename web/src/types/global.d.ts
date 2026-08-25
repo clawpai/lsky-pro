@@ -5,4 +5,10 @@ declare global {
   }
 }
 
+// 静态图片资源模块声明（登录图标等）
+declare module '*.png' {
+  const src: string;
+  export default src;
+}
+
 export {}; 

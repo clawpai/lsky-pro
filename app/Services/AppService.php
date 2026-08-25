@@ -139,7 +139,7 @@ class AppService
     }
 
     /**
-     * 获取 Lsky Pro+ - 2x.nz特供离线版 产品版本号列表
+     * 获取 lskyPai-PRO 产品版本号列表
      *
      * @return array
      * @throws ServiceException
@@ -148,8 +148,8 @@ class AppService
     {
         // 公益版本：返回当前版本信息
         return [
-            'current_version' => config('app.version', '2.2.3'),
-            'latest_version' => config('app.version', '2.2.3'),
+            'current_version' => config('app.version', '2.3'),
+            'latest_version' => config('app.version', '2.3'),
             'is_latest' => true,
             'message' => '公益版本'
         ];
@@ -662,6 +662,7 @@ class AppService
         return match ($provider) {
             SocialiteProvider::Github->value => $domain,
             SocialiteProvider::QQ->value => "{$domain}/login;{$domain}/register;{$domain}/user/profile",
+            SocialiteProvider::CCLogin->value => $domain,
         };
     }
 

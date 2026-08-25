@@ -22553,7 +22553,7 @@ namespace App\Facades {
         }
 
         /**
-         * 获取 Lsky Pro+ - 2x.nz特供离线版 产品版本号列表
+         * 获取 lskyPai-PRO 产品版本号列表
          *
          * @return array
          * @throws ServiceException

@@ -31,12 +31,15 @@ const { t } = useI18n()
 const socialites = ref<GetOauthBindsResponse['data']['data']>([])
 
 const openSocialiteUrl = async (socialite: GetConfigsResponse['data']['app']['socialites'][number]) => {
+  // 聚合多方式驱动：跳转地址携带 type，回调时用于区分登录方式
+  const typeQuery = socialite.type ? `&type=${encodeURIComponent(socialite.type)}` : ''
   const result = await getOauthByIdRedirect({
     path: {
       id: socialite.id.toString(),
     },
     query: {
-      redirect_url: `${app.getWithoutQueryUrl()}?tab=social&driver_id=${socialite.id}`,
+      redirect_url: `${app.getWithoutQueryUrl()}?tab=social&driver_id=${socialite.id}${typeQuery}`,
+      type: socialite.type ?? undefined,
     }
   })
   if (result.data?.status === 'error') {
@@ -46,10 +49,11 @@ const openSocialiteUrl = async (socialite: GetConfigsResponse['data']['app']['so
   window.location.replace(result.data!.data.redirect_url)
 }
 
-// 解除绑定
-const unbind = (id: number) => {
+// 解除绑定（聚合多方式：携带 type 精确解绑，防止误删其他登录方式）
+const unbind = (id: number, type?: string | null) => {
   deleteOauthByIdUnbind({
     path: {id: id.toString()},
+    query: type ? {type} : undefined,
   }).then(response => {
     if (response.data?.status === 'error') {
       return message.error(response.data?.message)
@@ -62,9 +66,9 @@ const unbind = (id: number) => {
   })
 }
 
-// 未绑定的第三方
+// 未绑定的第三方（多方式驱动按 driver_id+type 区分）
 const socials = computed(() => (configStore.configs?.app.socialites || []).filter(item => {
-  return socialites.value.map(socialite => socialite.driver.id).indexOf(item.id) === -1
+  return socialites.value.map(socialite => `${socialite.driver.id}:${socialite.driver.type || ''}`).indexOf(`${item.id}:${item.type || ''}`) === -1
 }))
 
 onMounted(() => {
@@ -84,6 +88,7 @@ onMounted(() => {
       },
       body: {
         code: route.query.code.toString(),
+        type: route.query.type?.toString(),
       }
     }).then(response => {
       if (response.data?.status === 'error') {
@@ -121,7 +126,7 @@ onMounted(() => {
       </thead>
       <tbody>
       <tr v-for="socialite in socialites">
-        <td>{{ socialite.driver.name }}</td>
+        <td>{{ app.getSocialiteDisplayName({provider: socialite.driver.provider, type: socialite.driver.type, name: socialite.driver.name}) }}</td>
         <td>
           <div class="flex space-x-1 items-center">
             <img class="w-8 rounded-full" :src="socialite.avatar" v-if="socialite.avatar" alt="avatar">
@@ -131,7 +136,7 @@ onMounted(() => {
         <td>{{ useDayjs(socialite.created_at).format('LLL') }}</td>
         <td>
           <NPopconfirm
-            @positive-click="unbind(socialite.driver.id)"
+            @positive-click="unbind(socialite.driver.id, socialite.driver.type)"
           >
             {{ $t('Are you sure you want to unbind this account?') }}
             <template #trigger>
@@ -157,9 +162,11 @@ onMounted(() => {
           @click="openSocialiteUrl(social)"
         >
           <template #icon>
-            <NIcon :component="app.getSocialiteIcon(social.provider)" />
+            <NIcon :component="app.getSocialiteIcon(social.provider, social.type)" />
           </template>
-          {{ social.name }}
+          <span v-if="socials.length <= 2">
+            {{ app.getSocialiteDisplayName(social) }}
+          </span>
         </NButton>
       </div>
     </div>

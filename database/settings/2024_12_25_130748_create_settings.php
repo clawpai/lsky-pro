@@ -8,7 +8,7 @@ return new class extends SettingsMigration
     public function up(): void
     {
         $this->migrator->inGroup('app', function (SettingsBlueprint $blueprint): void {
-            $blueprint->add('name', 'Lsky Pro+ - 2x.nz特供离线版');
+            $blueprint->add('name', 'lskyPai-PRO');
             $blueprint->add('url', 'http://localhost');
             $blueprint->addEncrypted('license_key');
             $blueprint->add('timezone', 'Asia/Shanghai');
@@ -21,14 +21,14 @@ return new class extends SettingsMigration
             $blueprint->add('user_email_verify', true);
             $blueprint->add('user_phone_verify', false);
             $blueprint->add('mail_from_address', 'hello@example.com');
-            $blueprint->add('mail_from_name', 'Lsky Pro+ - 2x.nz特供离线版');
+            $blueprint->add('mail_from_name', 'lskyPai-PRO');
         });
 
         $this->migrator->inGroup('site', function (SettingsBlueprint $blueprint): void {
             $blueprint->add('theme', 'default');
-            $blueprint->add('title', 'Lsky Pro+ - 2x.nz特供离线版');
+            $blueprint->add('title', 'lskyPai-PRO');
             $blueprint->add('subtitle', '您的云上相册。');
-            $blueprint->add('homepage_title', 'Lsky Pro+ - 2x.nz特供离线版');
+            $blueprint->add('homepage_title', 'lskyPai-PRO');
             $blueprint->add('homepage_description', 'Your photo album on the cloud.');
             $blueprint->add('notice', '');
             $blueprint->add('homepage_background_image_url', '');

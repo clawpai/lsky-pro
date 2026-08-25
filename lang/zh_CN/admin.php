@@ -136,6 +136,7 @@ return [
     'socialite_providers' => [
         'github' => 'Github',
         'qq' => 'QQ',
+        'cc' => '聚合CC登录',
     ],
     'storage_naming_rules' => [
         'Y' => [

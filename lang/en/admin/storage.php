@@ -16,6 +16,16 @@ return [
         'delete' => [
             'modal_description' => 'Deleting may cause images to become inaccessible. Please proceed with caution.',
         ],
+        'migrate' => [
+            'label' => 'Migrate Images',
+            'target_label' => 'Target Storage',
+            'delete_source_label' => 'Delete source files after migration',
+            'delete_source_helper' => 'When enabled, files in the source storage will be deleted (original links remain unchanged, served via smart back-origin).',
+            'concurrency_label' => 'Concurrency',
+            'concurrency_helper' => 'Files transferred simultaneously. Default 8 (Google Drive via CD2 quota: 5000 downloads/min), lower for weak networks, higher for fast ones.',
+            'modal_heading' => 'Migrate images from :name',
+            'dispatched' => 'Migration of :count images started in background. Check photo ownership later to confirm completion.',
+        ],
         'test_connection' => [
             'label' => 'Test Connection',
             'success' => 'Connection test successful!',

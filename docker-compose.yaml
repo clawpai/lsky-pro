@@ -1,4 +1,4 @@
-# Lsky Pro 2.2.3 一键部署（兼容 halcyonazure/lsky-pro-docker 挂载标准）
+# lskyPai-PRO v2.3 一键部署（兼容 halcyonazure/lsky-pro-docker 挂载标准）
 # 用法：docker compose up -d
 # 访问 http://<服务器IP>:9080
 

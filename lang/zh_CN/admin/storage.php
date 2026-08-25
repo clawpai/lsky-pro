@@ -16,6 +16,16 @@ return [
         'delete' => [
             'modal_description' => '删除后可能会导致图片无法访问，请谨慎操作。',
         ],
+        'migrate' => [
+            'label' => '迁移图片',
+            'target_label' => '目标储存',
+            'delete_source_label' => '迁移后删除源储存文件',
+            'delete_source_helper' => '开启后源储存中的文件将被删除（原外链保持不变，通过智能回源访问）。',
+            'concurrency_label' => '并发数',
+            'concurrency_helper' => '同时传输的文件数。默认 8（参考谷歌云盘 CD2 连接配额，下载类每分钟 5000 次），网络差可调低，高速网络可调高。',
+            'modal_heading' => '迁移 :name 的图片',
+            'dispatched' => '已开始迁移 :count 张图片，任务在后台执行，可稍后查看图片归属确认完成。',
+        ],
         'test_connection' => [
             'label' => '测试连接',
             'success' => '连接测试成功！',

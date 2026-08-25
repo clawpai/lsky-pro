@@ -13,7 +13,7 @@
             <div class="flex flex-row justify-between w-full">
                 <div class="flex flex-row items-center">
                     @if($version['logo'])
-                        <img class="w-10 h-10 mr-2" src="{{ $version['logo'] }}" alt="Lsky Pro+ - 2x.nz特供离线版 logo">
+                        <img class="w-10 h-10 mr-2" src="{{ $version['logo'] }}" alt="lskyPai-PRO logo">
                     @endif
                     <div class="flex flex-col">
                         <p class="text-md font-bold">{{ $version['name'] }}</p>

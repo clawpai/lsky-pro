@@ -1,4 +1,4 @@
-# Lsky Pro 2.2.3（2x.nz 特供离线版）自部署镜像
+# lskyPai-PRO v2.3 自部署镜像
 
 兰空图床 Lsky Pro 2.2.3 的自部署 Docker 镜像仓库。基于官方 docker 方案（php:8.4-fpm + nginx + supervisor）优化：
 

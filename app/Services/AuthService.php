@@ -33,10 +33,14 @@ class AuthService
      * @param string $openid 第三方授权ID
      * @return null|User
      */
-    public function getUserByOAuthId(string $openid): ?User
+    public function getUserByOAuthId(string $openid, ?string $driverId = null): ?User
     {
-        return User::whereHas('oauth', function (Builder $builder) use ($openid) {
+        return User::whereHas('oauth', function (Builder $builder) use ($openid, $driverId) {
             $builder->where('openid', $openid);
+
+            if (! is_null($driverId)) {
+                $builder->where('driver_id', $driverId);
+            }
         })->first();
     }
 
@@ -125,29 +129,48 @@ class AuthService
      *
      * @param string $id oauth provider id
      * @param string $code code
+     * @param string|null $type 登录方式（聚合驱动为 qq/wx/baidu 等，可空兼容旧逻辑）
      * @return bool
      */
-    public function bind(string $id, string $code): bool
+    public function bind(string $id, string $code, ?string $type = null): bool
     {
         /** @var User $user */
         $user = Auth::user();
-        $oauthUser = OAuthService::getUser($id, $code);
-        return (bool)$user->oauth()->firstOrCreate([
-            ...['driver_id' => $id],
-            ...$this->getOAuthUserFormatData($oauthUser),
-        ]);
+        $oauthUser = OAuthService::getUser($id, $code, $type);
+
+        // 同一驱动 + 登录方式 + 第三方唯一 ID 才视为同一绑定；昵称、头像等变化只更新资料，不能产生重复绑定。
+        $attributes = [
+            'driver_id' => $id,
+            'openid' => $oauthUser->getId(),
+        ];
+        if (! is_null($type) && $type !== '') {
+            $attributes['type'] = $type;
+        }
+
+        $oauth = $user->oauth()->firstOrNew($attributes);
+        $oauth->fill($this->getOAuthUserFormatData($oauthUser));
+
+        return $oauth->save();
     }
 
     /**
      * 解绑第三方账号
      *
      * @param string $id oauth provider id
+     * @param string|null $type 登录方式（聚合驱动多方式绑定需指定，防止误删其他方式）
      * @return bool
      */
-    public function unbind(string $id): bool
+    public function unbind(string $id, ?string $type = null): bool
     {
         /** @var User $user */
         $user = Auth::user();
-        return (bool)$user->oauth()->where('driver_id', $id)->delete();
+        $query = $user->oauth()->where('driver_id', $id);
+
+        // 聚合驱动多方式：按 type 精确解绑；其余按驱动解绑
+        if (! is_null($type) && $type !== '') {
+            $query->where('type', $type);
+        }
+
+        return (bool)$query->delete();
     }
 }

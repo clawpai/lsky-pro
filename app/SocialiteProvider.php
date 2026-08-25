@@ -10,4 +10,6 @@ enum SocialiteProvider: string
     case Github = 'github';
 
     case QQ = 'qq';
+
+    case CCLogin = 'cc';
 }

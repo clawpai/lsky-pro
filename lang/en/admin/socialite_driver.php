@@ -34,6 +34,24 @@ return [
                 'label' => 'Client Secret',
                 'placeholder' => 'Enter Client Secret',
             ],
+            'appid' => [
+                'label' => 'AppID',
+                'placeholder' => 'Enter aggregate AppID',
+            ],
+            'appkey' => [
+                'label' => 'AppKey',
+                'placeholder' => 'Enter aggregate AppKey',
+            ],
+            'type' => [
+                'label' => 'Login Type',
+                'placeholder' => 'default qq',
+                'helper_text' => 'Aggregate login type, e.g. qq / wx / sina / baidu',
+            ],
+            'endpoint' => [
+                'label' => 'Gateway URL',
+                'placeholder' => 'e.g. https://example.com/connect.php',
+                'helper_text' => 'Aggregate login endpoint. Enter your own gateway URL.',
+            ],
             'redirect' => [
                 'label' => 'Redirect URL',
             ]
