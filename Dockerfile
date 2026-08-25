@@ -13,7 +13,7 @@ ENV TZ=Asia/Shanghai
 
 # ---- 系统依赖（官方全量：服务 + 图片库 + 编译工具链）----
 RUN apt-get update && apt-get install -y \
-    wget gnupg software-properties-common curl zip unzip git cron \
+    wget gnupg curl zip unzip git cron \
     supervisor nginx sqlite3 netcat-openbsd procps htop \
     build-essential pkg-config autoconf automake libtool \
     imagemagick libmagickwand-dev libmagickcore-dev \
