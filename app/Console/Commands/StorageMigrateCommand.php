@@ -27,6 +27,8 @@ class StorageMigrateCommand extends Command
         {--to= : 目标储存 ID}
         {--delete-source : 记录切换并核验后删除源文件}
         {--limit=0 : 本次最多处理条数（0=不限）}
+        {--ids= : 仅处理指定图片 ID（逗号分隔，用于受控验证或恢复）}
+        {--skip-ids-file= : 跳过的图片 ID JSON 文件（用于保留已知双边缺失台账）}
         {--concurrency=8 : 并发数（默认 8，适合 CD2/Google Drive）}';
 
     protected $description = '安全迁移图片（断点续传、目标核验、受控并发、可选删除源文件）';
@@ -39,6 +41,17 @@ class StorageMigrateCommand extends Command
         $fromId = (int) $this->option('from');
         $toId = (int) $this->option('to');
         $limit = max(0, (int) $this->option('limit'));
+        $requestedIds = array_values(array_filter(array_map('intval', explode(',', (string) $this->option('ids')))));
+        $skipIdsFile = (string) $this->option('skip-ids-file');
+        $skippedIds = [];
+        if ($skipIdsFile !== '') {
+            $decoded = json_decode((string) @file_get_contents($skipIdsFile), true);
+            if (! is_array($decoded)) {
+                $this->error('跳过 ID 文件无效：' . $skipIdsFile);
+                return self::FAILURE;
+            }
+            $skippedIds = array_values(array_filter(array_map('intval', $decoded)));
+        }
         $concurrency = min(self::MAX_CONCURRENCY, max(1, (int) $this->option('concurrency')));
         $deleteSource = (bool) $this->option('delete-source');
 
@@ -63,6 +76,8 @@ class StorageMigrateCommand extends Command
         try {
             $ids = Photo::query()
                 ->where('storage_id', $fromId)
+                ->when(! empty($requestedIds), fn ($query) => $query->whereIn('id', $requestedIds))
+                ->when(! empty($skippedIds), fn ($query) => $query->whereNotIn('id', $skippedIds))
                 ->orderBy('id')
                 ->when($limit > 0, fn ($query) => $query->limit($limit))
                 ->pluck('id')
@@ -70,7 +85,7 @@ class StorageMigrateCommand extends Command
 
             $this->info("源储存: [{$from->id}] {$from->name}");
             $this->info("目标储存: [{$to->id}] {$to->name}");
-            $this->info('模式: ' . ($deleteSource ? '迁移并删除源文件' : '复制（保留源文件）'));
+            $this->info('模式: ' . ($deleteSource ? '第一阶段仅复制并切换记录（源文件将在全部成功后单独清理）' : '复制（保留源文件）'));
             $this->info("并发: {$concurrency}（CD2/Google Drive 默认安全值为 8）");
             $this->info('待处理: ' . count($ids));
 
@@ -183,7 +198,7 @@ class StorageMigrateCommand extends Command
         }
 
         // 目标完整性必须在切换记录前确认；之后所有失败只会保留源文件，绝不造成记录指向不存在目标。
-        if (! $toFs->fileExists($pathname) || $toFs->fileSize($pathname) !== $sourceSize) {
+        if (! $this->verifyTargetFile($toFs, $pathname, $sourceSize)) {
             throw new \RuntimeException('目标文件复验失败，未切换图片记录：' . $pathname);
         }
 
@@ -193,39 +208,46 @@ class StorageMigrateCommand extends Command
             return ['status' => 'skipped', 'photo_id' => $photoId];
         }
 
-        if ($deleteSource) {
-            try {
-                $fromFs->delete($pathname);
-            } catch (Throwable $e) {
-                Log::warning('迁移已完成但源文件删除失败（源文件被安全保留）', ['photo_id' => $photoId, 'pathname' => $pathname, 'error' => $e->getMessage()]);
-            }
-        }
+        // 第一阶段绝不删除源文件。并发进程可随时中断，源清理由全量验证后的独立命令执行。
+        // $deleteSource 参数保留仅为兼容后台已有任务，实际删除须显式执行 app:storage-cleanup。
 
         return ['status' => $reused ? 'reused' : 'migrated', 'photo_id' => $photoId];
     }
 
+    private function verifyTargetFile(Filesystem $filesystem, string $pathname, int $expectedSize): bool
+    {
+        // CD2/WebDAV 写入后可能有短暂最终一致性延迟；连续核验成功后才允许切换记录。
+        foreach ([0, 2, 4, 6] as $delay) {
+            if ($delay > 0) {
+                sleep($delay);
+            }
+            try {
+                if ($filesystem->fileExists($pathname) && $filesystem->fileSize($pathname) === $expectedSize) {
+                    return true;
+                }
+            } catch (Throwable) {
+                // 下一次延迟重试
+            }
+        }
+
+        return false;
+    }
+
     private function copyAndVerify(Filesystem $fromFs, Filesystem $toFs, string $pathname, int $sourceSize, int $photoId): void
     {
-        $temporary = $pathname . '.lsky-migrating-' . $photoId;
         for ($attempt = 1; $attempt <= self::MAX_RETRIES; $attempt++) {
             $stream = null;
             try {
-                if ($toFs->fileExists($temporary)) {
-                    $toFs->delete($temporary);
-                }
+                // CD2 WebDAV 不支持 MOVE（405）。pathname 在照片表中唯一，直接写入最终路径即可避免临时文件改名。
                 $stream = $fromFs->readStream($pathname);
                 if (! is_resource($stream)) {
                     throw new \RuntimeException('无法读取源文件流');
                 }
-                $toFs->writeStream($temporary, $stream);
+                $toFs->writeStream($pathname, $stream);
                 fclose($stream);
                 $stream = null;
 
-                if (! $toFs->fileExists($temporary) || $toFs->fileSize($temporary) !== $sourceSize) {
-                    throw new \RuntimeException('目标临时文件大小校验失败');
-                }
-                $toFs->move($temporary, $pathname);
-                if (! $toFs->fileExists($pathname) || $toFs->fileSize($pathname) !== $sourceSize) {
+                if (! $this->verifyTargetFile($toFs, $pathname, $sourceSize)) {
                     throw new \RuntimeException('目标文件最终校验失败');
                 }
                 return;

@@ -24,7 +24,7 @@ class OAuthController extends Controller
                 'redirect_url' => OAuthService::getProviderRedirectUrl(
                     $id,
                     $request->input('redirect_url'),
-                    $request->input('type'),
+                    $this->normalizeLoginType($request->input('type')),
                 ),
             ]);
         } catch (Throwable $e) {
@@ -38,7 +38,8 @@ class OAuthController extends Controller
      */
     public function login(string $id, Request $request): Response
     {
-        $oauthUser = OAuthService::getUser($id, (string)$request->input('code'), (string)$request->input('type'));
+        $type = $this->normalizeLoginType($request->input('type'));
+        $oauthUser = OAuthService::getUser($id, (string)$request->input('code'), $type);
         $user = AuthService::getUserByOAuthId($oauthUser->getId(), $id);
 
         if (!is_null($user)) {
@@ -52,7 +53,7 @@ class OAuthController extends Controller
             // 返回验证token
             'token' => AuthService::getOAuthLoginVerifyToken($oauthUser, [
                 'driver_id' => $id,
-                'type' => $request->input('type'),
+                'type' => $type,
             ]),
         ])->setStatusCode(202);
     }
@@ -83,7 +84,7 @@ class OAuthController extends Controller
      */
     public function bind(string $id, Request $request): Response
     {
-        AuthService::bind($id, (string)$request->input('code'), (string)$request->input('type'));
+        AuthService::bind($id, (string)$request->input('code'), $this->normalizeLoginType($request->input('type')));
         return R::success();
     }
 
@@ -92,7 +93,28 @@ class OAuthController extends Controller
      */
     public function unbind(string $id, Request $request): Response
     {
-        AuthService::unbind($id, (string)$request->input('type'));
+        AuthService::unbind($id, $this->normalizeLoginType($request->input('type')));
         return R::success();
+    }
+
+    /**
+     * 聚合网关会把回调 URL 自身的 type 再附加一次，形成 wx,wx。
+     * 只折叠完全相同的重复值；混合类型一律拒绝，避免绕过启用方式校验。
+     */
+    private function normalizeLoginType(mixed $value): ?string
+    {
+        if (is_null($value) || $value === '') {
+            return null;
+        }
+
+        $types = array_values(array_filter(array_map('trim', explode(',', (string) $value))));
+        if (empty($types)) {
+            return null;
+        }
+        if (count(array_unique($types)) !== 1) {
+            throw new \InvalidArgumentException('登录方式参数无效');
+        }
+
+        return $types[0];
     }
 }
