@@ -1,4 +1,4 @@
-# 兰空图床 Docker 部署
+# lskyPai-PRO v2.3 Docker 部署
 
 ## 快速开始
 
@@ -7,26 +7,26 @@
 ### 基础构建
 
 ```bash
-docker build -t lsky-pro:latest -f docker/Dockerfile .
+docker build -t lsky-pro:2.3 .
 ```
 
 ### 多平台构建
 
 ```bash
-docker buildx build --platform linux/amd64,linux/arm64 -t lsky-pro:latest -f docker/Dockerfile .
+docker buildx build --platform linux/amd64,linux/arm64 -t lsky-pro:2.3 .
 ```
 
 ### 构建并导出
 
 ```bash
 # 构建镜像
-docker build -f docker/Dockerfile -t lsky-pro:latest .
+docker build -t lskyPai-PRO:2.3 .
 
 # 导出镜像
-docker save lsky-pro:latest | gzip > lsky-pro-docker-latest.tar.gz
+docker save lskyPai-PRO:2.3 | gzip > lskyPai-PRO-2.3.tar.gz
 
 # 在目标机器上导入
-gunzip -c lsky-pro-docker-latest.tar.gz | docker load
+gunzip -c lskyPai-PRO-2.3.tar.gz | docker load
 ```
 
 ### SQLite 版本
@@ -62,7 +62,6 @@ docker run -d \
   -e ADMIN_USERNAME=admin \
   -e ADMIN_EMAIL=admin@qq.com \
   -e ADMIN_PASSWORD=123456 \
-  -e APP_LICENSE_KEY=lskyPai-PRO-free \
   -e DB_CONNECTION=mysql \
   -e DB_HOST=mysql-server \
   -e DB_PORT=3306 \
@@ -102,7 +101,7 @@ docker run -d \
 
 | 变量名               | 是否必须 | 默认值                 | 说明      |
 |-------------------|------|---------------------|---------|
-| `APP_LICENSE_KEY` | 是    | -                   | 许可证密钥   |
+| `APP_LICENSE_KEY` | 否    | `lskyPai-PRO-free` | 公益版标识，授权验证在本地直接通过 |
 | `APP_URL`         | 是    | `http://localhost`  | 应用URL   |
 | `ADMIN_USERNAME`  | 是    | `admin`             | 管理员用户名  |
 | `ADMIN_EMAIL`     | 是    | `admin@example.com` | 管理员邮箱   |
@@ -129,7 +128,7 @@ services:
     environment:
       - APP_NAME=兰空图床
       - APP_URL=https://lsky.pro
-      - APP_LICENSE_KEY=xxxx-xxxx-xxxx-xxxx
+      - APP_LICENSE_KEY=lskyPai-PRO-free
       - ADMIN_USERNAME=admin # 不设置则默认为 admin
       - ADMIN_EMAIL=admin@qq.com # 不设置则默认为 admin@example.com
       - ADMIN_PASSWORD=secure-password # 不设置则默认为 admin123
@@ -167,7 +166,7 @@ services:
     environment:
       - APP_NAME=兰空图床
       - APP_URL=https://lsky.pro
-      - APP_LICENSE_KEY=xxxx-xxxx-xxxx-xxxx
+      - APP_LICENSE_KEY=lskyPai-PRO-free
       - ADMIN_USERNAME=admin # 不设置则默认为 admin
       - ADMIN_EMAIL=admin@qq.com # 不设置则默认为 admin@example.com
       - ADMIN_PASSWORD=secure-password # 不设置则默认为 admin123

@@ -128,24 +128,23 @@ docker compose logs -f lsky-pro
 
 ### 3. 导入开源版数据
 
-如果镜像中包含开源版导入命令，可在新容器中执行：
+当前仓库不把旧站点数据库直接写入新站点，建议使用数据库备份恢复或按实际表结构编写一次性迁移脚本。不要直接执行不存在的导入命令。
+
+推荐流程：
+
+1. 备份旧数据库和 `storage/app`；
+2. 在测试实例恢复数据库备份；
+3. 按目标版本的 `users`、`photos`、`albums`、`storages` 等表结构转换数据；
+4. 逐项核对用户、相册、图片、储存策略和 API Token；
+5. 验收通过后再切换生产域名。
+
+可先查看数据库迁移文件：
 
 ```bash
-docker exec -it lsky-pro php artisan app:import-open \
-  --db-host=旧数据库地址 \
-  --db-port=3306 \
-  --db-database=旧数据库名 \
-  --db-username=旧数据库账号 \
-  --db-password='旧数据库密码'
+find database/migrations -type f -maxdepth 1 -print | sort
 ```
 
-实际执行前先运行命令帮助确认参数：
-
-```bash
-docker exec -it lsky-pro php artisan app:import-open --help
-```
-
-导入后检查用户、相册、图片、储存策略和 API Token 数量。不要在未备份时执行覆盖式导入。
+不要在未确认字段映射和备份可恢复前执行覆盖式导入。
 
 ### 4. 同步本地文件
 

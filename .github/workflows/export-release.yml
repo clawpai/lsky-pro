@@ -29,19 +29,19 @@ jobs:
 
       - name: Export & compress
         run: |
-          docker save ${{ env.IMAGE }} | gzip -1 > lsky-pro-2.2.3.tar.gz
-          ls -lh lsky-pro-2.2.3.tar.gz
+          docker save ${{ env.IMAGE }} | gzip -1 > lskyPai-PRO-2.3.tar.gz
+          ls -lh lskyPai-PRO-2.3.tar.gz
 
       - name: Create Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create image-export --title "镜像导出包" --notes "Lsky Pro 2.2.3 amd64 镜像 tar.gz（docker load 导入）" || true
+          gh release create image-export --title "镜像导出包" --notes "lskyPai-PRO v2.3 多架构镜像 tar.gz（docker load 导入）" || true
 
       - name: Upload asset
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload image-export lsky-pro-2.2.3.tar.gz --clobber
+          gh release upload image-export lskyPai-PRO-2.3.tar.gz --clobber
           echo "=== 完成 ==="
           gh release view image-export --json assets -q '.assets[] | .name + " " + .size'

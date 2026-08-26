@@ -8,7 +8,7 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 # ============================================================
-# Lsky Pro 2.2.3 优化版入口
+# lskyPai-PRO v2.3 优化版入口
 # 兼容 halcyonazure/lsky-pro-docker 挂载标准：
 #   -v $PWD/lsky:/var/www/html   （整个程序目录挂载）
 # 首次启动时若挂载目录为空，自动从内置 /var/www/lsky 拷贝程序。
