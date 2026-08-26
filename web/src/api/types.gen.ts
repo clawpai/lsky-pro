@@ -633,6 +633,10 @@ export type DeleteOauthByIdUnbindData = {
          * 登录方式（聚合驱动多方式绑定解绑需指定，防止误删其他方式）
          */
         type?: string;
+        /**
+         * OAuth 绑定记录 ID；资料页传入时精确解绑单条绑定。
+         */
+        oauth_id?: number;
     };
     url: '/oauth/{id}/unbind';
 };

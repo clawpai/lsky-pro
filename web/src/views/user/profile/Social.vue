@@ -32,13 +32,13 @@ const socialites = ref<GetOauthBindsResponse['data']['data']>([])
 
 const openSocialiteUrl = async (socialite: GetConfigsResponse['data']['app']['socialites'][number]) => {
   // 聚合多方式驱动：跳转地址携带 type，回调时用于区分登录方式
-  const typeQuery = socialite.type ? `&type=${encodeURIComponent(socialite.type)}` : ''
   const result = await getOauthByIdRedirect({
     path: {
       id: socialite.id.toString(),
     },
     query: {
-      redirect_url: `${app.getWithoutQueryUrl()}?tab=social&driver_id=${socialite.id}${typeQuery}`,
+      // type 仅作为请求参数交给聚合网关；避免网关回调再次追加时形成 wx,wx。
+      redirect_url: `${app.getWithoutQueryUrl()}?tab=social&driver_id=${socialite.id}`,
       type: socialite.type ?? undefined,
     }
   })
@@ -50,10 +50,10 @@ const openSocialiteUrl = async (socialite: GetConfigsResponse['data']['app']['so
 }
 
 // 解除绑定（聚合多方式：携带 type 精确解绑，防止误删其他登录方式）
-const unbind = (id: number, type?: string | null) => {
+const unbind = (oauthId: number, driverId: number, type?: string | null) => {
   deleteOauthByIdUnbind({
-    path: {id: id.toString()},
-    query: type ? {type} : undefined,
+    path: {id: driverId.toString()},
+    query: {oauth_id: oauthId, ...(type ? {type} : {})},
   }).then(response => {
     if (response.data?.status === 'error') {
       return message.error(response.data?.message)
@@ -136,7 +136,7 @@ onMounted(() => {
         <td>{{ useDayjs(socialite.created_at).format('LLL') }}</td>
         <td>
           <NPopconfirm
-            @positive-click="unbind(socialite.driver.id, socialite.driver.type)"
+            @positive-click="unbind(socialite.id, socialite.driver.id, socialite.driver.type)"
           >
             {{ $t('Are you sure you want to unbind this account?') }}
             <template #trigger>

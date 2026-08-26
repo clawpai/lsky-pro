@@ -40,7 +40,7 @@ class OAuthController extends Controller
     {
         $type = $this->normalizeLoginType($request->input('type'));
         $oauthUser = OAuthService::getUser($id, (string)$request->input('code'), $type);
-        $user = AuthService::getUserByOAuthId($oauthUser->getId(), $id);
+        $user = AuthService::getUserByOAuthId($oauthUser->getId(), $id, $type);
 
         if (!is_null($user)) {
             AuthService::login($user, true);
@@ -66,14 +66,24 @@ class OAuthController extends Controller
         $binds = AuthService::binds($request->validated());
 
         $binds->getCollection()->transform(function (OAuth $oauth) {
-            // driver.type 是 DriverType enum 字段；展示的登录方式来自 oauth 绑定记录本身。
-            $driver = $oauth->driver;
-            $driver->provider = $driver->options['provider'];
-            $driver->mergeCasts(['type' => 'string']);
-            $driver->type = $oauth->type;
-            $driver->setVisible(['id', 'name', 'intro', 'provider', 'type']);
+            // 每一条绑定都构造独立展示数据，不能修改共享的 Eloquent driver 关系对象。
+            $driver = [
+                'id' => $oauth->driver->id,
+                'name' => $oauth->driver->name,
+                'intro' => $oauth->driver->intro,
+                'provider' => $oauth->driver->options['provider'],
+                'type' => $oauth->type,
+            ];
 
-            return $oauth->setVisible(['id', 'avatar', 'email', 'name', 'nickname', 'driver', 'created_at']);
+            return [
+                'id' => $oauth->id,
+                'avatar' => $oauth->avatar,
+                'email' => $oauth->email,
+                'name' => $oauth->name,
+                'nickname' => $oauth->nickname,
+                'driver' => $driver,
+                'created_at' => $oauth->created_at,
+            ];
         });
 
         return R::success(data: $binds);
@@ -93,7 +103,11 @@ class OAuthController extends Controller
      */
     public function unbind(string $id, Request $request): Response
     {
-        AuthService::unbind($id, $this->normalizeLoginType($request->input('type')));
+        AuthService::unbind(
+            $id,
+            $this->normalizeLoginType($request->input('type')),
+            $request->integer('oauth_id') ?: null,
+        );
         return R::success();
     }
 

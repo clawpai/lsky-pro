@@ -117,7 +117,7 @@ class CreateNewUser implements CreatesNewUsers
         if (array_key_exists('token', $input) && $input['token']) {
             $content = AuthService::getOAuthLoginVerifyTokenContent($input['token']);
             if (!is_null($content)) {
-                $user->oauth()->firstOrCreate($content);
+                AuthService::bindOAuthContent($user, $content);
             }
         }
 

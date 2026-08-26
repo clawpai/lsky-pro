@@ -71,8 +71,11 @@ class FortifyServiceProvider extends ServiceProvider
                 if ($request->input('token')) {
                     $content = AuthService::getOAuthLoginVerifyTokenContent($request->input('token'));
                     if (!is_null($content)) {
-                        $driverId = data_get($content, 'driver_id');
-                        $user->oauth()->updateOrCreate(['driver_id' => $driverId], $content);
+                        try {
+                            AuthService::bindOAuthContent($user, $content);
+                        } catch (\RuntimeException $e) {
+                            throw new ServiceException($e->getMessage());
+                        }
                     } else {
                         throw new ServiceException('账号绑定失败，请重试');
                     }

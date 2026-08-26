@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Facades\OAuthService;
+use App\Models\OAuth;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -33,13 +34,17 @@ class AuthService
      * @param string $openid 第三方授权ID
      * @return null|User
      */
-    public function getUserByOAuthId(string $openid, ?string $driverId = null): ?User
+    public function getUserByOAuthId(string $openid, ?string $driverId = null, ?string $type = null): ?User
     {
-        return User::whereHas('oauth', function (Builder $builder) use ($openid, $driverId) {
+        return User::whereHas('oauth', function (Builder $builder) use ($openid, $driverId, $type) {
             $builder->where('openid', $openid);
 
             if (! is_null($driverId)) {
                 $builder->where('driver_id', $driverId);
+            }
+            // 聚合登录必须同时匹配方式，避免 QQ / 微信等不同平台的同值 ID 串号。
+            if (! is_null($type) && $type !== '') {
+                $builder->where('type', $type);
             }
         })->first();
     }
@@ -132,25 +137,53 @@ class AuthService
      * @param string|null $type 登录方式（聚合驱动为 qq/wx/baidu 等，可空兼容旧逻辑）
      * @return bool
      */
+    public function bindOAuthContent(User $user, array $content): bool
+    {
+        $driverId = (int) data_get($content, 'driver_id');
+        $openid = (string) data_get($content, 'openid');
+        $type = data_get($content, 'type');
+        if ($driverId <= 0 || $openid === '') {
+            throw new \RuntimeException('第三方授权信息无效。');
+        }
+
+        $existing = OAuth::query()
+            ->where('driver_id', $driverId)
+            ->where('openid', $openid)
+            ->when(! is_null($type) && $type !== '', fn ($query) => $query->where('type', $type))
+            ->first();
+        if (! is_null($existing) && $existing->user_id !== $user->id) {
+            throw new \RuntimeException('该第三方账号已绑定其他用户，无法重复绑定。');
+        }
+
+        $attributes = ['driver_id' => $driverId, 'openid' => $openid];
+        if (! is_null($type) && $type !== '') {
+            $attributes['type'] = $type;
+        }
+
+        $oauth = $user->oauth()->firstOrNew($attributes);
+        $oauth->fill($content);
+
+        return $oauth->save();
+    }
+
+    /**
+     * 绑定第三方账号（已登录用户在资料页主动绑定）。
+     *
+     * @param string $id oauth provider id
+     * @param string $code code
+     * @param string|null $type 登录方式
+     */
     public function bind(string $id, string $code, ?string $type = null): bool
     {
         /** @var User $user */
         $user = Auth::user();
         $oauthUser = OAuthService::getUser($id, $code, $type);
 
-        // 同一驱动 + 登录方式 + 第三方唯一 ID 才视为同一绑定；昵称、头像等变化只更新资料，不能产生重复绑定。
-        $attributes = [
+        return $this->bindOAuthContent($user, [
+            ...$this->getOAuthUserFormatData($oauthUser),
             'driver_id' => $id,
-            'openid' => $oauthUser->getId(),
-        ];
-        if (! is_null($type) && $type !== '') {
-            $attributes['type'] = $type;
-        }
-
-        $oauth = $user->oauth()->firstOrNew($attributes);
-        $oauth->fill($this->getOAuthUserFormatData($oauthUser));
-
-        return $oauth->save();
+            'type' => $type,
+        ]);
     }
 
     /**
@@ -160,14 +193,17 @@ class AuthService
      * @param string|null $type 登录方式（聚合驱动多方式绑定需指定，防止误删其他方式）
      * @return bool
      */
-    public function unbind(string $id, ?string $type = null): bool
+    public function unbind(string $id, ?string $type = null, ?int $oauthId = null): bool
     {
         /** @var User $user */
         $user = Auth::user();
         $query = $user->oauth()->where('driver_id', $id);
 
-        // 聚合驱动多方式：按 type 精确解绑；其余按驱动解绑
-        if (! is_null($type) && $type !== '') {
+        // 前端资料页传绑定记录 ID 时精确解绑，绝不误删同一方式下的其他账号。
+        if (! is_null($oauthId)) {
+            $query->whereKey($oauthId);
+        } elseif (! is_null($type) && $type !== '') {
+            // 兼容旧客户端：尚未传 oauth_id 时仍按方式解绑。
             $query->where('type', $type);
         }
 

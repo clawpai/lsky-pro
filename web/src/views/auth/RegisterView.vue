@@ -66,13 +66,13 @@ const onSubmit = async () => {
 const tab = ref('email')
 const openSocialiteUrl = async (socialite: GetConfigsResponse['data']['app']['socialites'][number]) => {
   // 聚合多方式驱动：跳转地址携带 type，回调时用于区分登录方式
-  const typeQuery = socialite.type ? `&type=${encodeURIComponent(socialite.type)}` : ''
   const result = await getOauthByIdRedirect({
     path: {
       id: socialite.id.toString(),
     },
     query: {
-      redirect_url: `${app.getWithoutQueryUrl()}?driver_id=${socialite.id}${typeQuery}`,
+      // type 仅作为请求参数交给聚合网关；避免网关回调再次追加时形成 wx,wx。
+      redirect_url: `${app.getWithoutQueryUrl()}?driver_id=${socialite.id}`,
       type: socialite.type ?? undefined,
     }
   })
