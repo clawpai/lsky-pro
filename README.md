@@ -1,19 +1,43 @@
+<div align="center">
+
 # lskyPai-PRO
 
-基于 Lsky Pro 的公益版增强发行，适合个人图床、自建相册和 WebDAV/CD2 云端存储场景。
+### 现代化、自托管、支持 WebDAV 云端存储的公益版图床
 
-## 目录
+稳定图片 URL · 智能回源 · 安全迁移 · 聚合登录 · 多架构 Docker
 
-- [功能特性](#功能特性)
-- [快速部署](#快速部署)
-- [完整 Docker Compose 部署](#完整-docker-compose-部署)
-- [从开源版升级迁移](#从开源版升级迁移)
-- [存储迁移](#存储迁移)
-- [聚合 QQ/微信登录](#聚合-qq微信登录)
-- [环境变量](#环境变量)
-- [常用维护命令](#常用维护命令)
-- [源码开发与构建](#源码开发与构建)
-- [安全说明](#安全说明)
+[![Version](https://img.shields.io/badge/version-2.3-7c3aed?style=for-the-badge)](https://github.com/clawpai/lsky-pro/releases)
+[![Docker](https://img.shields.io/badge/Docker-amd64%20%7C%20arm64-2496ed?style=for-the-badge&logo=docker&logoColor=white)](https://github.com/clawpai/lsky-pro/pkgs/container/lsky-pro)
+[![PHP](https://img.shields.io/badge/PHP-8.4-777bb4?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net/)
+[![License](https://img.shields.io/badge/license-open%20source-22c55e?style=for-the-badge)](LICENSE.md)
+
+**把图片交给你自己的存储，把访问速度和数据安全交给 lskyPai-PRO。**
+
+</div>
+
+---
+
+## ✦ 项目简介
+
+lskyPai-PRO 是基于 Lsky Pro 的自托管图床增强发行，适合个人图床、团队相册和 WebDAV/CD2 云端存储场景。
+
+它保留 Lsky Pro 的相册、用户、API 和管理后台能力，同时重点强化了图片存储迁移、旧链接稳定性、云端回源和聚合账号安全。
+
+> **核心设计：** 图片 URL 使用稳定 `pathname`，与本地、WebDAV、S3 等物理存储解耦。存储迁移不会改变原外链。
+
+## ✧ 目录
+
+- [项目简介](#-项目简介)
+- [功能特性](#-功能特性)
+- [快速部署](#-快速部署)
+- [完整 Docker Compose 部署](#-完整-docker-compose-部署)
+- [从开源版升级迁移](#-从开源版升级迁移)
+- [存储迁移](#-存储迁移)
+- [聚合 QQ/微信登录](#-聚合-qq微信登录)
+- [环境变量](#-环境变量)
+- [常用维护命令](#-常用维护命令)
+- [源码开发与构建](#-源码开发与构建)
+- [安全说明](#-安全说明)
 
 ## 功能特性
 
