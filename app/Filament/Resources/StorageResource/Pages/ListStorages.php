@@ -143,8 +143,8 @@ class ListStorages extends ListRecords
                     ->helperText(__('admin/storage.actions.migrate.concurrency_helper'))
                     ->numeric()
                     ->minValue(1)
-                    ->maxValue(16)
-                    ->default(fn(Storage $record): int => max(1, min(16, (int)($record->options['migration_concurrency'] ?? 8))))
+                    ->maxValue(48)
+                    ->default(fn(Storage $record): int => max(1, min(48, (int)($record->options['migration_concurrency'] ?? 8))))
                     ->required(),
             ])
             ->modalHeading(fn(Storage $record) => __('admin/storage.actions.migrate.modal_heading', ['name' => $record->name]))

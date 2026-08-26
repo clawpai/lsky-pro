@@ -31,7 +31,7 @@ class StorageMigrateCommand extends Command
 
     protected $description = '安全迁移图片（断点续传、目标核验、受控并发、可选删除源文件）';
 
-    private const MAX_CONCURRENCY = 16;
+    private const MAX_CONCURRENCY = 48;
     private const MAX_RETRIES = 3;
 
     public function handle(): int

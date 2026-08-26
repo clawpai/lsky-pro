@@ -25,7 +25,7 @@ class StorageMigrateJob implements ShouldQueue, ShouldBeUnique
         public bool $deleteSource = false,
         public int $concurrency = 8,
     ) {
-        $this->concurrency = max(1, min(16, $this->concurrency));
+        $this->concurrency = max(1, min(48, $this->concurrency));
     }
 
     public function uniqueId(): string
