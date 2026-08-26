@@ -1,4 +1,4 @@
-# Lsky Pro 2.2.3 Dockerfile（php:8.4-fpm + nginx + supervisor）
+# lskyPai-PRO v2.3 Dockerfile（php:8.4-fpm + nginx + supervisor）
 # 扩展 = 官方 docker/Dockerfile 全量（保证与官方行为一致，无缺扩展风险）
 # 优化点：
 #   1. 源码内置 /var/www/lsky，挂载 /var/www/html 兼容 halcyonazure 标准（空目录自动拷贝）
