@@ -49,7 +49,7 @@ if [ ! -f "/var/www/html/installed.lock" ]; then
     fi
 
     # 开心版：许可证密钥可选，任意值均可通过（verifyLicense 直接 true）
-    APP_LICENSE_KEY="${APP_LICENSE_KEY:-local-free}"
+    APP_LICENSE_KEY="${APP_LICENSE_KEY:-lskyPai-PRO-free}"
 
     # 首次部署请通过 ADMIN_PASSWORD 环境变量设置强密码（默认 admin123）
 

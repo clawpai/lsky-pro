@@ -240,6 +240,7 @@ class InstallCommand extends Command
         return text(
             label: '授权密钥：',
             placeholder: '请输入产品授权密钥',
+            default: 'lskyPai-PRO-free',
             required: true,
             hint: '购买程序后在官网个人中心可获得',
         );

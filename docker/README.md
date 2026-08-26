@@ -37,7 +37,7 @@ docker run -d \
   -p 8080:80 \
   -e APP_NAME=兰空图床 \
   -e APP_URL=your-domain \
-  -e APP_LICENSE_KEY=your-license-key \
+  -e APP_LICENSE_KEY=lskyPai-PRO-free \
   -e ADMIN_USERNAME=admin \
   -e ADMIN_EMAIL=admin@qq.com \
   -e ADMIN_PASSWORD=123456 \
@@ -58,11 +58,11 @@ docker run -d \
   -p 8080:80 \
   -e APP_NAME=兰空图床 \
   -e APP_URL=your-domain \
-  -e APP_LICENSE_KEY=your-license-key \
+  -e APP_LICENSE_KEY=lskyPai-PRO-free \
   -e ADMIN_USERNAME=admin \
   -e ADMIN_EMAIL=admin@qq.com \
   -e ADMIN_PASSWORD=123456 \
-  -e APP_LICENSE_KEY=your-license-key \
+  -e APP_LICENSE_KEY=lskyPai-PRO-free \
   -e DB_CONNECTION=mysql \
   -e DB_HOST=mysql-server \
   -e DB_PORT=3306 \
@@ -81,7 +81,7 @@ docker run -d \
   -p 8080:80 \
   -e APP_NAME="兰空图床" \
   -e APP_URL=https://img.example.com \
-  -e APP_LICENSE_KEY=your-license-key \
+  -e APP_LICENSE_KEY=lskyPai-PRO-free \
   -e ADMIN_USERNAME=admin \
   -e ADMIN_EMAIL=admin@example.com \
   -e ADMIN_PASSWORD=secure-password \

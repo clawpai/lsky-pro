@@ -42,7 +42,7 @@ docker run -d \
 |---|---|---|---|
 | `APP_URL` | ✅ | - | 站点地址（必须设置，镜像名占位） |
 | `APP_NAME` | - | 兰空图床 | 站点名称 |
-| `APP_LICENSE_KEY` | - | local-free | 本地授权，任意值均可 |
+| `APP_LICENSE_KEY` | - | lskyPai-PRO-free | 本地公益版标识，当前仅作配置值，授权验证函数直接通过 |
 | `ADMIN_USERNAME` | - | admin | 管理员账号（仅首次安装） |
 | `ADMIN_EMAIL` | - | admin@example.com | 管理员邮箱（仅首次安装） |
 | `ADMIN_PASSWORD` | - | admin123 | 管理员密码（仅首次安装，建议设置强密码） |
